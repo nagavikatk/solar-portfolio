@@ -1,0 +1,72 @@
+<div *ngIf="loading" class="loading-overlay">
+    <div class="spinner"></div>
+    <div class="loading-text">Loading Solar System...</div>
+  </div>
+  <div #rendererContainer class="solar-system-container"></div>
+  <div *ngIf="popupOpen" class="planet-popup" [ngStyle]="popupStyle">
+    <button class="close-btn" (click)="closePopup()">&times;</button>
+    <ng-container [ngSwitch]="activePlanet">
+      <div *ngSwitchCase="'sun'">
+        <h2>Nagavika Kamat</h2>
+      </div>
+      <div *ngSwitchCase="'mercury'">
+        <h2>Contact</h2>
+        <p>Email: nagavikakamat77&#64;gmail.com</p>
+      </div>
+      <div *ngSwitchCase="'venus'">
+        <h2>Education</h2>
+        <ul>
+          <li><b>R.V. College of Engineering, Bengaluru, B.E 2019-2023</b><br>Bachelor of Engg. in Electronics and Telecommunication (8.12 CGPA) Bangalore, Karnataka</li>
+          <li><b>Expert PU college, Mangalore, Pre-University 2017-2019</b><br>PCME, 92.67% Mangalore, Karnataka</li>
+          <li><b>Bal mandir High School, Karwar, State board 10th 2007-2017</b><br>97.28% Karwar, Karnataka</li>
+        </ul>
+      </div>
+      <div *ngSwitchCase="'mars'">
+        <h2>Projects (Mars)</h2>
+        <ul>
+          <li><a href="#">Dummy Project Link 1</a></li>
+          <li><a href="#">Dummy Project Link 2</a></li>
+        </ul>
+      </div>
+      <div *ngSwitchCase="'earth'">
+        <h2>Projects (Earth)</h2>
+        <ul>
+          <li><a href="#">Dummy Project Link 1</a></li>
+          <li><a href="#">Dummy Project Link 2</a></li>
+        </ul>
+      </div>
+      <div *ngSwitchCase="'uranus'">
+        <h2>Skills</h2>
+        <p><b>Interests:</b> UX/UI Design, UX/UI Development, Frontend Development</p>
+        <p><b>Languages:</b> HTML, CSS, TypeScript/JavaScript</p>
+        <p><b>Tools/Frameworks:</b> Angular, Angular Material, Jasmine, Karma</p>
+      </div>
+      <div *ngSwitchCase="'saturn'">
+        <h2>Published Papers</h2>
+        <ul>
+          <li><a href="#">Paper Link 1</a></li>
+          <li><a href="#">Paper Link 2</a></li>
+        </ul>
+      </div>
+      <div *ngSwitchCase="'jupiter'">
+        <h2>Work Experience</h2>
+        <b>ABB 09/2023 - Present</b><br>
+        Software Engineer - Frontend Bangalore, Karnataka
+        <ul>
+          <li>Independently building consistent User Experience across an entire product Model Fabric which has very loosely defined UX metrics.</li>
+          <li>Making critical UI/UX design decisions, involving the required stake holder and iterating to achieve great user experience for complete product; essentially handling the complete UI/UX design pipeline.</li>
+          <li>Built multiple modules of the Model Fabric application’s front-end using Angular, Angular material and built several reusage components that were begin used by other teams as well.</li>
+        </ul>
+        <b>03/2023 - 08/2023</b><br>
+        Software Engineer Intern Bangalore, Karnataka
+        <ul>
+          <li>Created multiple monitoring and alerting pipeline using Grafana and Alerta.</li>
+          <li>Built a complete end-to-end POC for a monitoring system using Prometheus, Promitor, Alerta, Grafana.</li>
+        </ul>
+      </div>
+      <div *ngSwitchCase="'neptune'">
+        <h2>Extra Curriculars</h2>
+        <p>Random content about extra curricular activities goes here.</p>
+      </div>
+    </ng-container>
+  </div>
