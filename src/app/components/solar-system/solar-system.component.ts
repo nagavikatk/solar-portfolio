@@ -144,42 +144,28 @@ export class SolarSystemComponent implements OnInit, OnDestroy {
 
     // Planet textures
     const planetTextures: { [key: string]: string } = {
-      mercury: 'https://www.solarsystemscope.com/textures/download/2k_mercury.jpg',
-      venus: 'https://www.solarsystemscope.com/textures/download/2k_venus_surface.jpg',
-      earth: 'https://www.solarsystemscope.com/textures/download/2k_earth_daymap.jpg',
-      mars: 'https://www.solarsystemscope.com/textures/download/2k_mars.jpg',
-      jupiter: 'https://www.solarsystemscope.com/textures/download/2k_jupiter.jpg',
-      saturn: 'https://www.solarsystemscope.com/textures/download/2k_saturn.jpg',
-      uranus: 'https://www.solarsystemscope.com/textures/download/2k_uranus.jpg',
-      neptune: 'https://www.solarsystemscope.com/textures/download/2k_neptune.jpg',
+      mercury: '/assets/mercury.jpg',
+      venus: '/assets/venus.jpg',
+      earth: '/assets/earth.jpg',
+      mars: '/assets/mars.webp',
+      jupiter: '/assets/Jupiter.webp',
+      saturn: '/assets/saturn.jpg',
+      uranus: '/assets/uranus.jpg',
+      neptune: '/assets/neptune.webp',
     };
 
     // Planets (slowed revolution by 75%)
     const planetConfigs = [
-      { name: 'sun', orbit: 0, size: 32, speed: 0 },
-      { name: 'mercury', orbit: 60, size: 6, speed: 0.004375 },
-      { name: 'venus', orbit: 90, size: 10, speed: 0.0035 },
-      { name: 'earth', orbit: 120, size: 12, speed: 0.00275 },
-      { name: 'mars', orbit: 150, size: 9, speed: 0.00225 },
-      { name: 'jupiter', orbit: 190, size: 22, speed: 0.0015 },
-      { name: 'saturn', orbit: 240, size: 18, speed: 0.001125 },
-      { name: 'uranus', orbit: 280, size: 14, speed: 0.000875 },
-      { name: 'neptune', orbit: 320, size: 13, speed: 0.000625 }
+      { name: 'sun', orbit: 0, size: 45, speed: 0 },
+      { name: 'mercury', orbit: 60, size: 10, speed: 0.004375 },
+      { name: 'venus', orbit: 90, size: 15, speed: 0.0035 },
+      { name: 'earth', orbit: 120, size: 18, speed: 0.00275 },
+      { name: 'mars', orbit: 150, size: 14, speed: 0.00225 },
+      { name: 'jupiter', orbit: 190, size: 32, speed: 0.0015 },
+      { name: 'saturn', orbit: 240, size: 28, speed: 0.001125 },
+      { name: 'uranus', orbit: 280, size: 24, speed: 0.000875 },
+      { name: 'neptune', orbit: 320, size: 22, speed: 0.000625 }
     ];
-
-    // Helper to add glow
-    function addGlow(mesh: any, color: string, size: number) {
-      const spriteMaterial = new THREE.SpriteMaterial({
-        map: new THREE.TextureLoader().load('/assets/circle.png'),
-        color: color,
-        transparent: true,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false
-      });
-      const sprite = new THREE.Sprite(spriteMaterial);
-      sprite.scale.set(size, size, 1.0);
-      mesh.add(sprite);
-    }
 
     // Preload all planet textures
     const loadingManager = new THREE.LoadingManager();
@@ -193,8 +179,7 @@ export class SolarSystemComponent implements OnInit, OnDestroy {
       sun.name = 'sun';
       sun.rotation.z = THREE.MathUtils.degToRad(axialTilts['sun']);
       this.scene.add(sun);
-      this.planets.push({ mesh: sun, name: 'sun', orbitRadius: 0, angle: 0, speed: 0, selfRotation: 0.002 });
-      addGlow(sun, '#fff8b0', 120);
+      this.planets.push({ mesh: sun, name: 'sun', orbitRadius: 0, angle: 0, speed: 0, selfRotation: 0 });
       // Planets
       planetConfigs.forEach(cfg => {
         console.log('Planet config name:', cfg.name);
@@ -287,15 +272,13 @@ export class SolarSystemComponent implements OnInit, OnDestroy {
               mesh.add(ring);
             });
           }
-          // Add glow to planets
-          addGlow(mesh, '#ffffff', cfg.size * 3.5);
         }
       });
       // After creating planets (sun loads async), the sun's loader will trigger animation
     };
 
     // Load sun texture
-    new THREE.TextureLoader(loadingManager).load('https://www.solarsystemscope.com/textures/download/2k_sun.jpg', (texture: THREE.Texture) => {
+    new THREE.TextureLoader(loadingManager).load('/assets/sun.webp', (texture: THREE.Texture) => {
       loadedTextures['sun'] = texture;
     });
     // Load planet textures
