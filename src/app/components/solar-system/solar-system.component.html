@@ -1,72 +1,149 @@
 <div *ngIf="loading" class="loading-overlay">
-    <div class="spinner"></div>
-    <div class="loading-text">Loading Solar System...</div>
-  </div>
-  <div #rendererContainer class="solar-system-container"></div>
-  <div *ngIf="popupOpen" class="planet-popup" [ngStyle]="popupStyle">
-    <button class="close-btn" (click)="closePopup()">&times;</button>
-    <ng-container [ngSwitch]="activePlanet">
-      <div *ngSwitchCase="'sun'">
-        <h2>Nagavika Kamat</h2>
-      </div>
-      <div *ngSwitchCase="'mercury'">
-        <h2>Contact</h2>
-        <p>Email: nagavikakamat77&#64;gmail.com</p>
-      </div>
-      <div *ngSwitchCase="'venus'">
-        <h2>Education</h2>
-        <ul>
-          <li><b>R.V. College of Engineering, Bengaluru, B.E 2019-2023</b><br>Bachelor of Engg. in Electronics and Telecommunication (8.12 CGPA) Bangalore, Karnataka</li>
-          <li><b>Expert PU college, Mangalore, Pre-University 2017-2019</b><br>PCME, 92.67% Mangalore, Karnataka</li>
-          <li><b>Bal mandir High School, Karwar, State board 10th 2007-2017</b><br>97.28% Karwar, Karnataka</li>
-        </ul>
-      </div>
-      <div *ngSwitchCase="'mars'">
-        <h2>Projects (Mars)</h2>
-        <ul>
-          <li><a href="#">Dummy Project Link 1</a></li>
-          <li><a href="#">Dummy Project Link 2</a></li>
-        </ul>
-      </div>
-      <div *ngSwitchCase="'earth'">
-        <h2>Projects (Earth)</h2>
-        <ul>
-          <li><a href="#">Dummy Project Link 1</a></li>
-          <li><a href="#">Dummy Project Link 2</a></li>
-        </ul>
-      </div>
-      <div *ngSwitchCase="'uranus'">
-        <h2>Skills</h2>
-        <p><b>Interests:</b> UX/UI Design, UX/UI Development, Frontend Development</p>
-        <p><b>Languages:</b> HTML, CSS, TypeScript/JavaScript</p>
-        <p><b>Tools/Frameworks:</b> Angular, Angular Material, Jasmine, Karma</p>
-      </div>
-      <div *ngSwitchCase="'saturn'">
-        <h2>Published Papers</h2>
-        <ul>
-          <li><a href="#">Paper Link 1</a></li>
-          <li><a href="#">Paper Link 2</a></li>
-        </ul>
-      </div>
-      <div *ngSwitchCase="'jupiter'">
-        <h2>Work Experience</h2>
-        <b>ABB 09/2023 - Present</b><br>
-        Software Engineer - Frontend Bangalore, Karnataka
-        <ul>
-          <li>Independently building consistent User Experience across an entire product Model Fabric which has very loosely defined UX metrics.</li>
-          <li>Making critical UI/UX design decisions, involving the required stake holder and iterating to achieve great user experience for complete product; essentially handling the complete UI/UX design pipeline.</li>
-          <li>Built multiple modules of the Model Fabric application’s front-end using Angular, Angular material and built several reusage components that were begin used by other teams as well.</li>
-        </ul>
-        <b>03/2023 - 08/2023</b><br>
-        Software Engineer Intern Bangalore, Karnataka
-        <ul>
-          <li>Created multiple monitoring and alerting pipeline using Grafana and Alerta.</li>
-          <li>Built a complete end-to-end POC for a monitoring system using Prometheus, Promitor, Alerta, Grafana.</li>
-        </ul>
-      </div>
-      <div *ngSwitchCase="'neptune'">
-        <h2>Extra Curriculars</h2>
-        <p>Random content about extra curricular activities goes here.</p>
-      </div>
-    </ng-container>
-  </div>
+  <div class="spinner"></div>
+  <div class="loading-text">Loading Solar System...</div>
+</div>
+
+<div #rendererContainer class="solar-system-container"></div>
+
+<!-- Side Panel Overlay (optional) -->
+<div *ngIf="popupOpen" class="side-panel-overlay" [class.is-closing]="isClosing" (click)="closePopup()"></div>
+
+<!-- Side Panel -->
+<div *ngIf="popupOpen" class="side-panel" [class.is-closing]="isClosing">
+  <button class="close-btn" (click)="closePopup()">&times;</button>
+  <ng-container [ngSwitch]="activePlanet">
+
+    <div *ngSwitchCase="'sun'" class="side-panel-content">
+      <h2 class="side-panel-header">Nagavika Kamat</h2>
+      <p>Software Engineer</p>
+      <p><b>Frontend Developer | UI/UX Enthusiast | Problem Solver</b></p>
+      <p>
+        I’m a passionate software engineer specializing in frontend development, 
+        blending <b>modern frameworks (Angular, React)</b> with 
+        <b>intuitive UI/UX design</b>. 
+      </p>
+      <p>
+        My goal is to create seamless, accessible, and visually engaging 
+        digital experiences. Beyond code, I thrive on solving complex problems, 
+        collaborating with teams, and continuously learning new technologies.
+      </p>
+    </div>
+
+    <div *ngSwitchCase="'mercury'" class="side-panel-content">
+      <h2 class="side-panel-header">Contact</h2>
+      <p>Email: <a href="mailto:nagavikakamat77@gmail.com">nagavikakamat77&#64;gmail.com</a></p>
+      <p>Phone: +91 9606134247</p>
+      <p>Location: Bengaluru, Karnataka, India</p>
+      <p>Open to: Frontend Engineering Roles | UI/UX Projects | Freelance Work</p>
+    </div>
+
+    <div *ngSwitchCase="'venus'" class="side-panel-content">
+      <h2 class="side-panel-header">Education</h2>
+      <ul>
+        <li>
+          <b>R.V. College of Engineering, Bengaluru (2019-2023)</b><br>
+          Bachelor of Engineering in Electronics & Telecommunication<br>
+          <i>Graduated with 8.12 CGPA</i>
+        </li>
+        <br>
+        <li>
+          <b>Expert PU College, Mangalore (2017-2019)</b><br>
+          PCME – Physics, Chemistry, Math, Electronics<br>
+          <i>Secured 92.67%</i>
+        </li>
+        <br>
+        <li>
+          <b>Bal Mandir High School, Karwar (2007-2017)</b><br>
+          Karnataka State Board<br>
+          <i>Achieved 97.28%</i>
+        </li>
+      </ul>
+    </div>
+
+    <div *ngSwitchCase="'mars'" class="side-panel-content">
+      <h2 class="side-panel-header">Profile Links</h2>
+      <ul>
+        <li><a href="https://www.linkedin.com/in/nagavika-kamat-24799224b" target="_blank">LinkedIn</a> – Professional updates & networking</li>
+        <br>
+        <li><a href="https://www.geeksforgeeks.org/user/nagavikakamat77/" target="_blank">GeeksforGeeks</a> – Coding practice & problem-solving</li>
+        <br>
+        <li><a href="https://www.leetcode.com/u/nagavika_kamat/" target="_blank">LeetCode</a> – Algorithmic problem solving</li>
+        <br>
+        <li><a href="https://github.com/nagavikatk" target="_blank">GitHub</a> – Personal and open-source projects</li>
+      </ul>
+    
+    </div>
+
+    <div *ngSwitchCase="'earth'" class="side-panel-content">
+      <h2 class="side-panel-header">Projects</h2>
+      <ul>
+        <li>
+          <b>Solar System Portfolio</b> – 
+          <a href="https://github.com/nagavikatk/solar-portfolio" target="_blank">Code</a> | 
+          <a href="https://nagavika-kamat-portfolio.netlify.app/" target="_blank">Live</a><br>
+          <small>Immersive 3D portfolio built with Angular & Three.js, featuring interactive planetary navigation to showcase skills, experience, and projects.</small>
+        </li>
+        <br>
+        <li>
+          <b>Sorting Visualizer</b> – 
+          <a href="https://github.com/nagavikatk/visualize-sorting" target="_blank">Code</a> | 
+          <a href="https://mark47jacobs.github.io/SortingVisualiser/" target="_blank">Live</a><br>
+          <small>Interactive web app demonstrating sorting algorithms with real-time animations. Includes adjustable speed, array sizes, and comparison highlights.</small>
+        </li>
+      </ul>
+    </div>
+
+    <div *ngSwitchCase="'uranus'" class="side-panel-content">
+      <h2 class="side-panel-header">Skills</h2>
+      <p><b>Languages:</b> HTML, CSS, JavaScript, TypeScript, c#, python</p>
+      <p><b>Frameworks & Libraries:</b> Angular, React, Angular Material, Bootstrap</p>
+      <p><b>Tools & Testing:</b> Git, Jasmine, Karma, Jest</p>
+      <p><b>DevOps & Monitoring:</b> Prometheus, Grafana, Promitor, Alerta</p>
+      <p><b>Other:</b> Responsive Design, Accessibility (WCAG), UI/UX Principles</p>
+    </div>
+
+    <div *ngSwitchCase="'saturn'" class="side-panel-content">
+      <h2 class="side-panel-header">Published Papers</h2>
+      <ul>
+        <li>
+          <a href="https://advances.vsb.cz/data/articles/2023/Vol%2021,%20No%202/Electrical%20and%20Electronic%20Engineering/Compact%20and%20Energy%20Efficient%20QCA%20Based%20Hamming%20Encoder%20for%20Error%20Detection%20and%20Correction.pdf" target="_blank">
+            Compact and Energy Efficient QCA-Based Hamming Encoder for Error Detection and Correction
+          </a> – Advances in Electrical and Electronic Engineering, 2023
+        </li>
+        <br>
+        <li>
+          <a href="https://sciendo.com/fr/article/10.2478/jee-2024-0028" target="_blank">
+            Optimized Hamming Encoder/Decoder
+          </a> – Sciendo Journal of Electrical Engineering, 2024
+        </li>
+      </ul>
+    </div>
+
+    <div *ngSwitchCase="'jupiter'" class="side-panel-content">
+      <h2 class="side-panel-header">Work Experience</h2>
+      <b>ABB | Sep 2023 - Present</b><br>
+      Software Engineer – Frontend (Bangalore, Karnataka)
+      <ul>
+        <li>Developed core modules of Model Fabric using Angular 14+, TypeScript, Angular Material.</li>
+        <li>Improved accessibility by 40 points applying WCAG 2.1 AA standards.</li>
+        <li>Optimized load time by 30% via lazy loading, code splitting, and state management.</li>
+        <li>Built and published reusable UI components adopted by 3+ product teams.</li>
+      </ul>
+      <br>
+      <br>
+      <b>ABB | Mar 2023 - Aug 2023</b><br>
+      Software Engineer Intern
+      <ul>
+        <li>Built monitoring system using Prometheus, Promitor, Alerta, Grafana.</li>
+        <li>Automated Azure metric collection & dashboards used by 5+ teams.</li>
+      </ul>
+    </div>
+
+    <div *ngSwitchCase="'neptune'" class="side-panel-content">
+      <h2 class="side-panel-header">Extra Curriculars</h2>
+      <p>🏆 Published 2 research papers in reputed journals.</p>
+      <p>🎨 Interests in UX/UI design & development.</p>
+    </div>
+
+  </ng-container>
+</div>

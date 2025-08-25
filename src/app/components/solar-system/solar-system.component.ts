@@ -22,6 +22,7 @@ export class SolarSystemComponent implements OnInit, OnDestroy {
   activePlanet: string | null = null;
   popupStyle: any = {};
   loading = true;
+  isClosing = false;
 
   private renderer: any;
   private scene: any;
@@ -195,73 +196,9 @@ export class SolarSystemComponent implements OnInit, OnDestroy {
       this.planets.push({ mesh: sun, name: 'sun', orbitRadius: 0, angle: 0, speed: 0, selfRotation: 0.002 });
       addGlow(sun, '#fff8b0', 120);
       // Planets
-      let uranusLoaded = false;
       planetConfigs.forEach(cfg => {
         console.log('Planet config name:', cfg.name);
-        if (cfg.name === 'uranus') {
-          // Load FBX model for Uranus
-          const fbxLoader = new FBXLoader();
-          console.log('Loading Uranus FBX...');
-          fbxLoader.load(
-            '/assets/uranus/source/uranus.fbx',
-            (object: any) => {
-              console.log('Uranus FBX loaded', object);
-              object.name = 'uranus';
-              object.traverse((child: any) => {
-                if (child.isMesh) {
-                  child.castShadow = false;
-                  child.receiveShadow = false;
-                  child.visible = true;
-                  if (child.material) {
-                    if (Array.isArray(child.material)) {
-                      child.material.forEach((mat: any, idx: number) => {
-                        mat.opacity = 1;
-                        mat.transparent = false;
-                        // Remove debug color, restore original
-                        // mat.color = new THREE.Color(0x00ff00);
-                        if (!mat.map) {
-                          const tex = new THREE.TextureLoader().load('/assets/uranus/source/Uv1_uranus1_diff.png');
-                          mat.map = tex;
-                          mat.needsUpdate = true;
-                        }
-                        console.log('Uranus mesh:', child.name, 'material['+idx+']:', mat);
-                      });
-                    } else {
-                      child.material.opacity = 1;
-                      child.material.transparent = false;
-                      // Remove debug color, restore original
-                      // child.material.color = new THREE.Color(0x00ff00);
-                      if (!child.material.map) {
-                        const tex = new THREE.TextureLoader().load('/assets/uranus/source/Uv1_uranus1_diff.png');
-                        child.material.map = tex;
-                        child.material.needsUpdate = true;
-                      }
-                      console.log('Uranus mesh:', child.name, 'material:', child.material);
-                    }
-                  }
-                }
-              });
-              // Center the model geometry
-              const box = new THREE.Box3().setFromObject(object);
-              const center = new THREE.Vector3();
-              box.getCenter(center);
-              object.position.sub(center); // Move model so its center is at (0,0,0)
-              object.scale.set(0.0007, 0.0007, 0.0007); // Slightly smaller
-              object.position.x += cfg.orbit;
-              console.log('Uranus bounding box min:', box.min, 'max:', box.max, 'center:', center);
-              this.scene.add(object);
-              this.planets.push({ mesh: object, name: 'uranus', orbitRadius: cfg.orbit, angle: Math.random() * Math.PI * 2, speed: cfg.speed, selfRotation: 0.01 + Math.random() * 0.01 });
-              this.loading = false;
-              this.animate();
-            },
-            undefined,
-            (error: any) => {
-              console.error('Failed to load Uranus FBX', error);
-              this.loading = false;
-              this.animate();
-            }
-          );
-        } else if (cfg.name.toLowerCase() === 'sun' || cfg.name.toLowerCase() === 'unstablestar' || cfg.name.toLowerCase().includes('sun')) {
+        if (cfg.name.toLowerCase() === 'sun' || cfg.name.toLowerCase() === 'unstablestar' || cfg.name.toLowerCase().includes('sun')) {
           console.log('Entering Sun FBX loader branch for:', cfg.name);
           // Load FBX model for Sun
           console.log('Attempting to load Sun FBX...');
@@ -326,65 +263,6 @@ export class SolarSystemComponent implements OnInit, OnDestroy {
               this.animate();
             }
           );
-        } else if (cfg.name === 'jupiter') {
-          // Load FBX model for Jupiter
-          const fbxLoader = new FBXLoader();
-          console.log('Loading Jupiter FBX...');
-          fbxLoader.load(
-            '/assets/jupiter/jupiter.fbx',
-            (object: any) => {
-              console.log('Jupiter FBX loaded', object);
-              object.name = 'jupiter';
-              object.traverse((child: any) => {
-                if (child.isMesh) {
-                  child.castShadow = false;
-                  child.receiveShadow = false;
-                  child.visible = true;
-                  if (child.material) {
-                    if (Array.isArray(child.material)) {
-                      child.material.forEach((mat: any, idx: number) => {
-                        mat.opacity = 1;
-                        mat.transparent = false;
-                        if (!mat.map) {
-                          const tex = new THREE.TextureLoader().load('/assets/jupiter/Uv1_jupiter1_diff.png');
-                          mat.map = tex;
-                          mat.needsUpdate = true;
-                        }
-                        console.log('Jupiter mesh:', child.name, 'material['+idx+']:', mat);
-                      });
-                    } else {
-                      child.material.opacity = 1;
-                      child.material.transparent = false;
-                      if (!child.material.map) {
-                        const tex = new THREE.TextureLoader().load('/assets/jupiter/Uv1_jupiter1_diff.png');
-                        child.material.map = tex;
-                        child.material.needsUpdate = true;
-                      }
-                      console.log('Jupiter mesh:', child.name, 'material:', child.material);
-                    }
-                  }
-                }
-              });
-              // Center the model geometry
-              const box = new THREE.Box3().setFromObject(object);
-              const center = new THREE.Vector3();
-              box.getCenter(center);
-              object.position.sub(center);
-              object.scale.set(0.000001, 0.000001, 0.000001); // Even smaller
-              object.position.x += cfg.orbit;
-              console.log('Jupiter bounding box min:', box.min, 'max:', box.max, 'center:', center);
-              this.scene.add(object);
-              this.planets.push({ mesh: object, name: 'jupiter', orbitRadius: cfg.orbit, angle: Math.random() * Math.PI * 2, speed: cfg.speed, selfRotation: 0.01 + Math.random() * 0.01 });
-              this.loading = false;
-              this.animate();
-            },
-            undefined,
-            (error: any) => {
-              console.error('Failed to load Jupiter FBX', error);
-              this.loading = false;
-              this.animate();
-            }
-          );
         } else {
           const geometry = new THREE.SphereGeometry(cfg.size, 48, 48);
           let material: any;
@@ -413,11 +291,7 @@ export class SolarSystemComponent implements OnInit, OnDestroy {
           addGlow(mesh, '#ffffff', cfg.size * 3.5);
         }
       });
-      // If Uranus is not loaded (e.g., not present), finish loading and animate
-      if (!uranusLoaded) {
-        this.loading = false;
-        this.animate();
-      }
+      // After creating planets (sun loads async), the sun's loader will trigger animation
     };
 
     // Load sun texture
@@ -476,21 +350,10 @@ export class SolarSystemComponent implements OnInit, OnDestroy {
       };
       const raycaster = new THREE.Raycaster();
       raycaster.setFromCamera(mouse, this.camera);
-      // For Uranus, add its children meshes to the raycast array
-      const raycastMeshes = this.planets.flatMap(p => {
-        if (p.name === 'uranus' && p.mesh.children && p.mesh.children.length > 0) {
-          return p.mesh.children.filter((child: any) => child.isMesh);
-        }
-        return [p.mesh];
-      });
+      const raycastMeshes = this.planets.map(p => p.mesh);
       const intersects = raycaster.intersectObjects(raycastMeshes);
       if (intersects.length > 0) {
-        const planet = this.planets.find(p => {
-          if (p.name === 'uranus' && p.mesh.children && p.mesh.children.length > 0) {
-            return p.mesh.children.includes(intersects[0].object);
-          }
-          return p.mesh === intersects[0].object;
-        });
+        const planet = this.planets.find(p => p.mesh === intersects[0].object);
         if (planet) {
           this.openPopup(planet.name, event.clientX, event.clientY);
         }
@@ -515,13 +378,7 @@ export class SolarSystemComponent implements OnInit, OnDestroy {
           planet.mesh.position.y = 0;
         }
         // Self-rotation
-        if (planet.name === 'uranus' && planet.mesh.children && planet.mesh.children.length > 0) {
-          planet.mesh.children.forEach((child: any) => {
-            if (child.isMesh) child.rotation.y += planet.selfRotation || 0;
-          });
-        } else {
-          planet.mesh.rotation.y += planet.selfRotation || 0;
-        }
+        planet.mesh.rotation.y += planet.selfRotation || 0;
       });
     }
     // Shooting star logic
@@ -588,6 +445,7 @@ export class SolarSystemComponent implements OnInit, OnDestroy {
   };
 
   openPopup(planet: string, x: number, y: number) {
+    this.isClosing = false;
     this.popupOpen = true;
     this.activePlanet = planet;
     this.revolutionPaused = true;
@@ -598,8 +456,13 @@ export class SolarSystemComponent implements OnInit, OnDestroy {
   }
 
   closePopup() {
-    this.popupOpen = false;
-    this.activePlanet = null;
-    this.revolutionPaused = false;
+    if (!this.popupOpen) return;
+    this.isClosing = true;
+    setTimeout(() => {
+      this.popupOpen = false;
+      this.activePlanet = null;
+      this.revolutionPaused = false;
+      this.isClosing = false;
+    }, 280);
   }
 } 
