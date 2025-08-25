@@ -147,10 +147,10 @@ export class SolarSystemComponent implements OnInit, OnDestroy {
       mercury: '/assets/mercury.jpg',
       venus: '/assets/venus.jpg',
       earth: '/assets/earth.jpg',
-      mars: '/assets/mars.webp',
-      jupiter: '/assets/Jupiter.webp',
+      mars: '/assets/mars.jpg',
+      jupiter: '/assets/jupiter.avif',
       saturn: '/assets/saturn.jpg',
-      uranus: '/assets/uranus.jpg',
+      uranus: '/assets/uranus.webp',
       neptune: '/assets/neptune.webp',
     };
 
