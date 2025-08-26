@@ -5,6 +5,11 @@
 
 <div #rendererContainer class="solar-system-container"></div>
 
+<!-- Instructional banner -->
+<div class="hint-banner" aria-live="polite" aria-label="Interaction hint">
+  Click the planets to learn more about me
+</div>
+
 <!-- Side Panel Overlay (optional) -->
 <div *ngIf="popupOpen" class="side-panel-overlay" [class.is-closing]="isClosing" (click)="closePopup()"></div>
 
